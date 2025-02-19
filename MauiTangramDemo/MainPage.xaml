@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MauiTangramDemo.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
+
+    <Grid
+        Padding="0,30,0,30"
+        ColumnDefinitions="280,350"
+        HorizontalOptions="Center">
+        <VerticalStackLayout Spacing="25">
+            <Grid HeightRequest="320">
+                <Image
+                    HeightRequest="270"
+                    HorizontalOptions="Center"
+                    Source="tangram_orange.png"
+                    VerticalOptions="Center"
+                    WidthRequest="270">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="IdentifyTangramPieces" />
+                    </Image.GestureRecognizers>
+                </Image>
+            </Grid>
+
+            <Label x:Name="tangramInfo" HorizontalOptions="Center" />
+        </VerticalStackLayout>
+
+        <VerticalStackLayout Grid.Column="1" Spacing="25">
+            <Grid HeightRequest="320">
+                <Image
+                    HeightRequest="312"
+                    HorizontalOptions="Center"
+                    Source="tangram_man_black.png"
+                    VerticalOptions="Center"
+                    WidthRequest="252">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="IdentifyMan" />
+                    </Image.GestureRecognizers>
+                </Image>
+            </Grid>
+
+            <Label x:Name="manInfo" HorizontalOptions="Center" />
+
+        </VerticalStackLayout>
+    </Grid>
+
+</ContentPage>
