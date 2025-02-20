@@ -19,6 +19,7 @@
                     WidthRequest="270">
                     <Image.GestureRecognizers>
                         <TapGestureRecognizer Tapped="IdentifyTangramPieces" />
+                        <PointerGestureRecognizer PointerMoved="HoverTangramPieces" />
                     </Image.GestureRecognizers>
                 </Image>
             </Grid>
@@ -36,6 +37,7 @@
                     WidthRequest="252">
                     <Image.GestureRecognizers>
                         <TapGestureRecognizer Tapped="IdentifyMan" />
+                        <PointerGestureRecognizer PointerMoved="HoverMan" />
                     </Image.GestureRecognizers>
                 </Image>
             </Grid>

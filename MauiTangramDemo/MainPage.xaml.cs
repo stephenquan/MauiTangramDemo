@@ -44,32 +44,30 @@ public partial class MainPage : ContentPage
     /// <summary>
     /// Demonstrates detection of a user click.
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private void IdentifyTangramPieces(object sender, TappedEventArgs e)
+    /// <param name="view"></param>
+    /// <param name="getPosition"></param>
+    /// <param name="zones"></param>
+    /// <param name="dict"></param>
+    /// <param name="targetLabel"></param>
+    public void ImageDetector(View view, Func<Element?, Point?> getPosition, SKBitmap? zones, Dictionary<Color, string> dict, Label targetLabel)
     {
-        if (tangramzones is null) return;
-
-        // Get the position of the tap relative to the view
-        View view = (View)sender;
-        Point? pos = e.GetPosition(view);
-        if (pos is null) return;
-
         // Determine the pixel color of the tap
-        int normalizedX = (int)(pos.Value.X * tangramzones.Width / view.Width);
-        int normalizedY = (int)(pos.Value.Y * tangramzones.Height / view.Height);
-        SKColor skcolor = tangramzones.GetPixel(normalizedX, normalizedY);
+        if (zones is null) return;
+        Point? pos = getPosition(view);
+        if (pos is null) return;
+        int normalizedX = (int)(pos.Value.X * zones.Width / view.Width);
+        int normalizedY = (int)(pos.Value.Y * zones.Height / view.Height);
+        SKColor skcolor = zones.GetPixel(normalizedX, normalizedY);
         Color color = skcolor.ToMauiColor();
-
         // Determine the item at the tap location
-        if (tangramdict.ContainsKey(color))
+        if (dict.ContainsKey(color))
         {
-            string item = tangramdict[color];
-            tangramInfo.Text = $"{item} found at {normalizedX},{normalizedY}";
+            string item = dict[color];
+            targetLabel.Text = $"{item} found at {normalizedX},{normalizedY}";
         }
         else
         {
-            tangramInfo.Text = $"No item found at {normalizedX},{normalizedY} with color {color.ToHex()}";
+            targetLabel.Text = $"No item found at {normalizedX},{normalizedY} with color {color.ToHex()}";
         }
     }
 
@@ -78,30 +76,30 @@ public partial class MainPage : ContentPage
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
+    private void IdentifyTangramPieces(object sender, TappedEventArgs e)
+        => ImageDetector((View)sender, e.GetPosition, tangramzones, tangramdict, tangramInfo);
+
+    /// <summary>
+    /// Demonstrates detection of a user click.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void IdentifyMan(object sender, TappedEventArgs e)
-    {
-        if (manzones is null) return;
+        => ImageDetector((View)sender, e.GetPosition, manzones, mandict, manInfo);
 
-        // Get the position of the tap relative to the view
-        View view = (View)sender;
-        Point? pos = e.GetPosition(view);
-        if (pos is null) return;
+    /// <summary>
+    /// Demonstrates detection of a user hover.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void HoverTangramPieces(object sender, PointerEventArgs e)
+        => ImageDetector((View)sender, e.GetPosition, tangramzones, tangramdict, tangramInfo);
 
-        // Determine the pixel color of the tap
-        int normalizedX = (int)(pos.Value.X * manzones.Width / view.Width);
-        int normalizedY = (int)(pos.Value.Y * manzones.Height / view.Height);
-        SKColor skcolor = manzones.GetPixel(normalizedX, normalizedY);
-        Color color = skcolor.ToMauiColor();
-
-        // Determine the item at the tap location
-        if (mandict.ContainsKey(color))
-        {
-            string item = mandict[color];
-            manInfo.Text = $"{item} found at {normalizedX},{normalizedY}";
-        }
-        else
-        {
-            manInfo.Text = $"No item found at {normalizedX},{normalizedY} with color {color.ToHex()}";
-        }
-    }
+    /// <summary>
+    /// Demonstrates detection of a user hover.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void HoverMan(object sender, PointerEventArgs e)
+        => ImageDetector((View)sender, e.GetPosition, manzones, mandict, manInfo);
 }
